@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
-import {View, StyleSheet, TextInput, Button} from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet, TextInput, Button, Alert } from 'react-native';
 
 export const AddTodo = (props) => {
     const [value, setValue] = useState('')
     const pressHandler = () => {
         if (!value.trim()) {
-            // empry input
+            Alert.alert('empty message')
         } else {
             props.addTodo(value)
             setValue('')
@@ -13,8 +13,9 @@ export const AddTodo = (props) => {
     }
     return (
         <View style={styles.container}>
-            <TextInput style={styles.input} onChangeText={setValue} value ={value} placeholder='введите текс'/>
-            <Button style={styles.button} title='добавить' onPress={pressHandler} />
+            <TextInput style={styles.input} onChangeText={setValue}
+                value={value} placeholder='введите текс' autoCorrect={false} autoCapitalize={'none'} />
+            <Button style={styles.button} title='добавить' onPress={pressHandler} disabled={!value}/>
         </View>
     )
 }

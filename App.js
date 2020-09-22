@@ -1,27 +1,27 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import { Navbar } from './src/Navbar';
 import { AddTodo } from './src/AddTodo';
-import {Todo} from './src/Todo'
+import { Todo } from './src/Todo'
 
 export default function App() {
   const [todos, setTodos] = useState([]);
   const addTodo = (text) => {
-    setTodos((prevTodos) => [...prevTodos, {
+    setTodos((prevTodos) => [{
       id: Date.now().toString(),
       text
-    }])
+    }, ...prevTodos])
   }
   return (
     <View style={styles.container} >
       <Navbar title='title of navbar' />
       <AddTodo addTodo={addTodo} />
-      <View>
+      <ScrollView>
         {
-          todos.map((el, index) => <Todo key = {index} text={el.text}/>)
+          todos.map((el, index) => <Todo key={index} text={el.text} />)
         }
-      </View>
+      </ScrollView>
       <StatusBar style="auto" />
     </View>
   );
