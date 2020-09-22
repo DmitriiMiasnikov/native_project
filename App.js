@@ -14,13 +14,16 @@ export default function App() {
       text
     }, ...prevTodos])
   }
+  const removeTodo = (id) => {
+    setTodos(prev => prev.filter(el => el.id !== id))
+  }
   return (
     <View style={styles.container} >
       <Navbar title='title of navbar' />
       <AddTodo addTodo={addTodo} />
 
       <FlatList data={todos} keyExtractor={item => item.id}
-        renderItem={({item}) => <Todo text={item.text} time={item.time}/>}/>
+        renderItem={({item}) => <Todo id={item.id} text={item.text} time={item.time} removeTodo={removeTodo}/>}/>
 
       {/* <ScrollView>
         {
