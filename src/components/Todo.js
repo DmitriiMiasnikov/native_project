@@ -5,7 +5,7 @@ export const Todo = (props) => {
     return (
         <TouchableOpacity activeOpacity={0.5}
             onLongPress={() => props.removeTodo(props.id)}
-            onPress={() => console.log(props.id)}>
+            onPress={() => props.openTodo(props.id)}>
             <View style={styles.todo}>
                 <View style={styles.textBlock}><Text style={styles.text}>{props.text}</Text></View>
                 <View><Text style={styles.time}>{props.time}</Text></View>

@@ -1,11 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, View, ScrollView, FlatList } from 'react-native';
-import { Navbar } from './src/Navbar';
-import { AddTodo } from './src/AddTodo';
-import { Todo } from './src/Todo'
+import { StyleSheet, View } from 'react-native';
+import { Navbar } from './src/components/Navbar';
+import { MainScreen } from './src/screens/MainScreen';
+import { TodoScreen } from './src/screens/TodoScreen';
 
 export default function App() {
+  const [todoId, setTodoId] = useState(0);
   const [todos, setTodos] = useState([]);
   const addTodo = (text) => {
     setTodos((prevTodos) => [{
@@ -17,19 +18,20 @@ export default function App() {
   const removeTodo = (id) => {
     setTodos(prev => prev.filter(el => el.id !== id))
   }
+  const openTodo = (id) => {
+    setTodoId(id)
+  }
+  const goBack = () => {
+    setTodoId(0);
+  }
+  let content = <MainScreen addTodo={addTodo} removeTodo={removeTodo} todos={todos} openTodo={openTodo}/>;
+  if (todoId) {
+    content = <TodoScreen goBack={goBack} todo={todos.find(el => el.id === todoId)}/>
+  }
   return (
     <View style={styles.container} >
       <Navbar title='title of navbar' />
-      <AddTodo addTodo={addTodo} />
-
-      <FlatList data={todos} keyExtractor={item => item.id}
-        renderItem={({item}) => <Todo id={item.id} text={item.text} time={item.time} removeTodo={removeTodo}/>}/>
-
-      {/* <ScrollView>
-        {
-          todos.map((el, index) => <Todo key={index} text={el.text} time={el.time}/>)
-        }
-      </ScrollView> */}
+      {content}
       <StatusBar style="auto" />
     </View>
   );
