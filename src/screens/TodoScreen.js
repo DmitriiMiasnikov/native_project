@@ -1,17 +1,23 @@
 import React from 'react';
 import { StyleSheet, View, Text, Button } from 'react-native';
+import { AppCard } from '../components/ui/AppCard';
 import { THEME } from '../theme';
 
 export const TodoScreen = (props) => {
     return (
         <View style={styles.container}>
-            <Text>{props.todo.text}</Text>
+            <AppCard style={styles.card}>
+                <Text style={styles.title}>{props.todo.text}</Text>
+                <View style={styles.buttonRedact}>
+                    <Button title={'редакторовать'} />
+                </View>
+            </AppCard>
             <View style={styles.buttons}>
                 <View style={styles.button}>
-                    <Button title={'назад'} onPress={props.goBack} color={THEME.GREY_COLOR}/>
+                    <Button title={'назад'} onPress={props.goBack} color={THEME.GREY_COLOR} />
                 </View>
                 <View style={styles.button}>
-                    <Button title={'удалить'} onPress={() => console.log('3')} color={THEME.DANGER_COLOR} />
+                    <Button title={'удалить'} onPress={() => props.removeTodo(props.todo.id)} color={THEME.DANGER_COLOR} />
                 </View>
 
             </View>
@@ -28,6 +34,15 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     button: {
-        width: '40%'
+        width: '40%',
+    },
+    title: {
+        fontSize: 24,
+        width: '60%'
+    },
+    buttonRedact: {
+    },
+    card: {
+        marginBottom: 15
     }
 })
