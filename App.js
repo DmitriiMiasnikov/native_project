@@ -5,8 +5,8 @@ import { Navbar } from './src/components/Navbar';
 import { MainScreen } from './src/screens/MainScreen';
 import { TodoScreen } from './src/screens/TodoScreen';
 
-export default function App() {
-  const [todoId, setTodoId] = useState(0);
+export default function App()        {
+  const [todoId, setTodoId] = useState(null);
   const [todos, setTodos] = useState([]);
   const addTodo = (text) => {
     setTodos((prevTodos) => [{
