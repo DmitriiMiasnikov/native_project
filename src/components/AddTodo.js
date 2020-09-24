@@ -15,8 +15,8 @@ export const AddTodo = (props) => {
     return (
         <View style={styles.container}>
             <TextInput style={styles.input} onChangeText={setValue}
-                value={value} placeholder='введите текс' autoCorrect={false} autoCapitalize={'none'} />
-            <Button style={styles.button} title='добавить' onPress={pressHandler} disabled={!value}/>
+                value={value} placeholder='Введите текст' autoCorrect={false} autoCapitalize={'none'} />
+            <Button style={styles.button} title='Добавить' onPress={pressHandler} disabled={!value}/>
         </View>
     )
 }

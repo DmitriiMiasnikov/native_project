@@ -15,6 +15,15 @@ export default function App() {
       text
     }, ...prevTodos])
   }
+  const editTodo = (text, id) => {
+    setTodos((prevTodos) => prevTodos.map(el => {
+      if (el.id === id) {
+        el.text = text
+      }
+      return el
+    })
+    )
+  }
   const removeTodo = (id) => {
     const todo = todos.find(el => el.id === id);
     Alert.alert(
@@ -47,7 +56,8 @@ export default function App() {
   }
   let content = <MainScreen addTodo={addTodo} removeTodo={removeTodo} todos={todos} openTodo={openTodo} />;
   if (todoId) {
-    content = <TodoScreen goBack={goBack} todo={todos.find(el => el.id === todoId)} removeTodo={removeTodo} />
+    const selectedTodo = todos.find(el => el.id === todoId)
+    content = <TodoScreen goBack={goBack} todo={selectedTodo} removeTodo={removeTodo} editTodo={editTodo} />
   }
   return (
     <View style={styles.container} >
