@@ -31,7 +31,8 @@ const styles = StyleSheet.create({
         width: '85%'
     },
     text: {
-        fontSize: 20
+        fontSize: 20,
+        // fontFamily: 'roboto-regular'
     },
     time: {
         fontSize: 14

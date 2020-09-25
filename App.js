@@ -1,13 +1,21 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, View, Alert } from 'react-native';
+import { useFonts } from 'expo-font';
+import { AppLoading } from 'expo';
+
 import { Navbar } from './src/components/Navbar';
 import { MainScreen } from './src/screens/MainScreen';
 import { TodoScreen } from './src/screens/TodoScreen';
 
-export default function App()        {
+export default function App() {
   const [todoId, setTodoId] = useState(null);
   const [todos, setTodos] = useState([]);
+  const [fontsLoading] = useFonts({
+    'roboto-regular': require('./assets/fonts/Roboto-Regular.ttf'),
+    'roboto-bold': require('./assets/fonts/Roboto-Bold.ttf')
+  })
+
   const addTodo = (text) => {
     setTodos((prevTodos) => [{
       id: Date.now().toString(),
@@ -59,13 +67,17 @@ export default function App()        {
     const selectedTodo = todos.find(el => el.id === todoId)
     content = <TodoScreen goBack={goBack} todo={selectedTodo} removeTodo={removeTodo} editTodo={editTodo} />
   }
-  return (
-    <View style={styles.container} >
-      <Navbar title='title of navbar' />
-      {content}
-      <StatusBar style="auto" />
-    </View>
-  );
+  if (!fontsLoading) {
+    return <AppLoading />
+  } else {
+    return (
+      <View style={styles.container} >
+        <Navbar title='title of navbar' />
+        {content}
+        <StatusBar style="auto" />
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
