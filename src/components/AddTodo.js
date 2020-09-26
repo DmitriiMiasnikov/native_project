@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TextInput, Button, Alert } from 'react-native';
+import { View, StyleSheet, TextInput, Button, Alert, Keyboard } from 'react-native';
 
 import { THEME } from '../theme';
 
@@ -11,6 +11,7 @@ export const AddTodo = (props) => {
         } else {
             props.addTodo(value)
             setValue('')
+            Keyboard.dismiss()
         }
     }
     return (

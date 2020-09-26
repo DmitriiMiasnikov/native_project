@@ -5,6 +5,7 @@ import { AppCard } from '../components/ui/AppCard';
 import { THEME } from '../theme';
 
 export const TodoScreen = (props) => {
+
     const [modal, setModal] = useState(false);
     const currentTodo = (text) => {
         props.editTodo(text, props.todo.id)
