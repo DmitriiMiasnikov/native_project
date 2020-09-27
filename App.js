@@ -1,87 +1,13 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { StyleSheet, View, Alert } from 'react-native';
-import { useFonts } from 'expo-font';
-import { AppLoading } from 'expo';
+import React from 'react';
 
-import { Navbar } from './src/components/Navbar';
-import { MainScreen } from './src/screens/MainScreen';
-import { TodoScreen } from './src/screens/TodoScreen';
+import { MainLayout } from './src/MainLayout';
+import { TodoState } from './src/context/todo/TodoState';
 
 export default function App() {
-  const [todoId, setTodoId] = useState(null);
-  const [todos, setTodos] = useState([]);
-  const [fontsLoading] = useFonts({
-    'roboto-regular': require('./assets/fonts/Roboto-Regular.ttf'),
-    'roboto-bold': require('./assets/fonts/Roboto-Bold.ttf')
-  })
 
-  const addTodo = (text) => {
-    setTodos((prevTodos) => [{
-      id: Date.now().toString(),
-      time: `${new Date().getHours()}:${new Date().getMinutes()}`,
-      text
-    }, ...prevTodos])
-  }
-  const editTodo = (text, id) => {
-    setTodos((prevTodos) => prevTodos.map(el => {
-      if (el.id === id) {
-        el.text = text
-      }
-      return el
-    })
-    )
-  }
-  const removeTodo = (id) => {
-    const todo = todos.find(el => el.id === id);
-    Alert.alert(
-      'удаление элемента',
-      `Вы дейстивельно хотите удалить запись ${todo.text} ?`,
-      [
-        {
-          text: 'Отмена',
-          style: 'cancel'
-        },
-        {
-          text: 'Удалить',
-          style: 'destructive',
-          onPress: () => {
-            setTodoId(null);
-            setTodos(prev => prev.filter(el => el.id !== id))
-          }
-        }
-      ],
-      {
-        cancelable: false
-      }
-    )
-  }
-  const openTodo = (id) => {
-    setTodoId(id)
-  }
-  const goBack = () => {
-    setTodoId(0);
-  }
-  let content = <MainScreen addTodo={addTodo} removeTodo={removeTodo} todos={todos} openTodo={openTodo} />;
-  if (todoId) {
-    const selectedTodo = todos.find(el => el.id === todoId)
-    content = <TodoScreen goBack={goBack} todo={selectedTodo} removeTodo={removeTodo} editTodo={editTodo} />
-  }
-  if (!fontsLoading) {
-    return <AppLoading />
-  } else {
-    return (
-      <View style={styles.container} >
-        <Navbar title='title of navbar' />
-        {content}
-        <StatusBar style="auto" />
-      </View>
-    );
-  }
+  return (
+    <TodoState>
+      <MainLayout />
+    </TodoState>
+  );
 }
-
-const styles = StyleSheet.create({
-  container: {
-
-  },
-});
