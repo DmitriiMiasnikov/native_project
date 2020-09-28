@@ -1,9 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import { StyleSheet, View, FlatList, Image, Dimensions } from 'react-native';
 import { AddTodo } from '../components/AddTodo';
 import { Todo } from '../components/Todo';
+import { ScreenContext } from '../context/screen/screeenContext';
+import { TodoContext } from '../context/todo/todoContext';
 
-export const MainScreen = (props) => {
+export const MainScreen = () => {
+    const {addTodo, todos, removeTodo} = useContext(TodoContext)
+    const {changeScreen} = useContext(ScreenContext)
     const [deviceWidth, setDeviceWidth] = useState(Dimensions.get('window').width)
     useEffect(() => {
         const update = () => {
@@ -19,21 +23,21 @@ export const MainScreen = (props) => {
 
     let content = (
         <View style={{width: deviceWidth }}>
-        <FlatList data={props.todos} keyExtractor={item => item.id}
+        <FlatList data={todos} keyExtractor={item => item.id}
             renderItem={({ item }) => (
                 <Todo id={item.id} text={item.text} time={item.time}
-                    removeTodo={props.removeTodo} openTodo={props.openTodo} />)
+                    removeTodo={removeTodo} openTodo={changeScreen} />)
             } />
         </View>
     )
-    if (props.todos.length === 0) {
+    if (todos.length === 0) {
         content = <View style={styles.imageWrap}>
             <Image source={require('../../assets/no-items.png')} style={styles.image} resizeMode={'contain'}/>
         </View>
     }
     return (
         <View>
-            <AddTodo addTodo={props.addTodo} />
+            <AddTodo addTodo={addTodo} />
             {content}
         </View>
     )
