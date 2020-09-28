@@ -11,12 +11,16 @@ export const EditModal = (props) => {
             props.currentTodo(value)
         }
     }
+    const cancelHanler = () => {
+        setValue(props.value)
+        props.onCancel()
+    }
     return (
         <Modal visible={props.visible} animationType={'slide'} transparent={false}>
             <View style={styles.container}>
                 <TextInput style={styles.input} placeholder={'Введите сообщение'} onChangeText={setValue} value={value} />
                 <View style={styles.buttons}>
-                    <Button title={'Отменить'} onPress={props.onCancel} color={THEME.DANGER_COLOR} />
+                    <Button title={'Отменить'} onPress={cancelHanler} color={THEME.DANGER_COLOR} />
                     <Button title={'Сохранить'} disabled={!value} onPress={pressHandler} />
                 </View>
             </View>
