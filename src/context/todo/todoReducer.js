@@ -2,11 +2,14 @@ import { ADD_TODO, REMOVE_TODO, UPDATE_TODO } from "../types"
 
 const handlers = {
     [ADD_TODO]: (state, { text }) => ({
-        ...state, todos: {
-            id: Date.now().toString(),
-            time: `${new Date().getHours()}:${new Date().getMinutes()}`,
-            text: text
-        }, ...state.todos
+        ...state, todos: [
+            {
+                id: Date.now().toString(),
+                time: `${new Date().getHours()}:${new Date().getMinutes()}`,
+                text: text
+            },
+            ...state.todos
+        ]
     }),
     [REMOVE_TODO]: (state, { id }) => ({
         ...state, todos: state.todos.filter(el => el.id !== id)
