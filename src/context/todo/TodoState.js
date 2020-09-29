@@ -17,7 +17,7 @@ export const TodoState = ({ children }) => {
     const addTodo = async (text) => {
         const response = await fetch('https://native-project-398bb.firebaseio.com/todos.json', {
             method: 'POST',
-            heador: { 'Content-type': 'application/json' },
+            headers: { 'Content-type': 'application/json' },
             body: JSON.stringify({ text })
         })
         const data = await response.json()
@@ -36,7 +36,11 @@ export const TodoState = ({ children }) => {
                 {
                     text: 'Удалить',
                     style: 'destructive',
-                    onPress: () => {
+                    onPress: async () => {
+                        await fetch(`https://native-project-398bb.firebaseio.com/todos/${id}.json`, {
+                            method: 'DELETE',
+                            headers: { 'Content-type': 'application/json' },
+                        })
                         changeScreen(null)
                         dispatch({ type: REMOVE_TODO, id })
                     }
@@ -65,8 +69,20 @@ export const TodoState = ({ children }) => {
             hideLoader()
         }
     }
-    const editTodo = (text, id) => {
-        dispatch({ type: UPDATE_TODO, text, id })
+    const editTodo = async (text, id) => {
+        clearError()
+        try {
+            await fetch(`https://native-project-398bb.firebaseio.com/todos/${id}.json`, {
+                method: 'PATCH',
+                headers: { 'Content-type': 'application/json' },
+                body: JSON.stringify({text})
+            })
+            dispatch({ type: UPDATE_TODO, text, id })
+        } catch(error) {
+            showError('Что то пошло не так...')
+            console.log(error)
+        }
+
     }
     const showLoader = () => {
         dispatch({ type: SHOW_LOADER })

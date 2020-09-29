@@ -13,8 +13,8 @@ export const TodoScreen = () => {
 
     const todo = todos.find(el => el.id === todoId)
 
-    const currentTodo = (text) => {
-        editTodo(text, todo.id)
+    const currentTodo = async (text) => {
+        await editTodo(text, todo.id)
         setModal(false)
     }
     return (
